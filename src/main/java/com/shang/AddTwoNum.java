@@ -19,20 +19,20 @@ public class AddTwoNum {
 
     public static void main(String[] args) {
 
-        LinkedList<ListNode> listNodes1 = new LinkedList<>();
-        LinkedList<ListNode> listNodes2 = new LinkedList<>();
 
-        listNodes1.add(new ListNode(2));
-        listNodes1.add(new ListNode(4));
-        listNodes1.add(new ListNode(3));
+        ListNode listNode1 = new ListNode(2);
+        listNode1.next = new ListNode(4);
+        listNode1.next.next = new ListNode(3);
 
 
-        listNodes2.add(new ListNode(5));
-        listNodes2.add(new ListNode(6));
-        listNodes2.add(new ListNode(4));
 
-        ListNode listNode = addTwoNum(listNodes1.getFirst(), listNodes2.getFirst());
-        System.out.println(JSON.toJSONString(listNode));
+        ListNode l1 = new ListNode(5);
+        l1.next = new ListNode(6);
+        l1.next.next = new ListNode(4);
+
+
+        ListNode listNode = addTwoNum(listNode1, l1);
+        System.out.println(listNode.val);
     }
 
     public static ListNode addTwoNum(ListNode l1,ListNode l2) {
@@ -54,16 +54,21 @@ public class AddTwoNum {
         int carry = 0;//进位
 
         while (p1 != null && p2 != null) {
-
             sum = p1.val + p2.val + carry;
-            p1.val = sum % 10;//本位的结果
-            carry = sum / 10;
+            p1.val = sum % 10; // 本位的结果
+            carry = sum / 10; // 本次进位
 
             r.next = p1;
-            r = p1;
+            r = p1; // 指向最后一个相加的结点
             p1 = p1.next;
             p2 = p2.next;
 
+        }
+        if (p1 == null) {
+            r.next = p2;
+        } else {
+            r.next = p1;
+        }
             // 最后一次相加还有进位
             if (carry == 1) {
                 // 开始时r.next是第一个要相加的结点
@@ -80,7 +85,7 @@ public class AddTwoNum {
                 }
             }
 
-        }
+
         return root.next;
     }}
 
